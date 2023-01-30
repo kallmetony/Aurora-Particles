@@ -1,5 +1,6 @@
 package com.aaronr92.auroraproject;
 
+import com.aaronr92.auroraproject.handler.ParticleLoader;
 import com.aaronr92.auroraproject.listener.ParticleCommand;
 import com.aaronr92.auroraproject.listener.PluginListener;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,6 +22,8 @@ public class Plugin extends JavaPlugin {
         FileConfiguration config = this.getConfig();
         this.saveDefaultConfig();
         config.options().copyDefaults();
+
+        ParticleLoader.getInstance().init();
 
         this.getCommand("particle").setExecutor(new ParticleCommand());
 

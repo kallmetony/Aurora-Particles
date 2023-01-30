@@ -4,6 +4,7 @@ import com.aaronr92.auroraproject.Plugin;
 import com.aaronr92.auroraproject.model.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,13 +16,13 @@ public class ParticleLoader {
     private static final List<Particle> particles = Collections.synchronizedList(new ArrayList<>());
 
     public ParticleLoader() {
-        init();
+
     }
 
     public void init() {
         ConfigurationSection configuration = Plugin.getPlugin().getConfig();
         configuration.getKeys(false).forEach(p -> {
-            particles.add(new Particle(
+            Particle particle = new Particle(
                     org.bukkit.Particle.valueOf(
                             configuration.getString(p + ".particle")
                     ),
@@ -33,12 +34,14 @@ public class ParticleLoader {
                     configuration.getDouble(p + ".offsetY"),
                     configuration.getDouble(p + ".offsetZ"),
                     configuration.getDouble(p + ".size")
-            ));
+            );
+            particles.add(particle);
+            long period = configuration.getLong(p + ".period");
+            setupTask(
+                    particle,
+                    period == 0 ? 20L : period
+            );
         });
-    }
-
-    public Particle getParticle(int id) {
-        return particles.get(id);
     }
 
     public void sendParticlesToPlayer(Player player) {
@@ -48,7 +51,11 @@ public class ParticleLoader {
                     particle.getX(),
                     particle.getY(),
                     particle.getZ(),
-                    particle.getCount()
+                    particle.getCount(),
+                    particle.getOffsetX(),
+                    particle.getOffsetY(),
+                    particle.getOffsetZ(),
+                    particle.getSize()
             );
         });
     }
@@ -64,7 +71,21 @@ public class ParticleLoader {
                     particle.getX(),
                     particle.getY(),
                     particle.getZ(),
-                    particle.getCount());
+                    particle.getCount(),
+                    particle.getOffsetX(),
+                    particle.getOffsetY(),
+                    particle.getOffsetZ(),
+                    particle.getSize()
+            );
         });
+    }
+
+    private void setupTask(Particle particle, long period) {
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                sendParticleToAllPlayers(particle);
+            }
+        }.runTaskTimer(Plugin.getPlugin(), 0l, period);
     }
 }

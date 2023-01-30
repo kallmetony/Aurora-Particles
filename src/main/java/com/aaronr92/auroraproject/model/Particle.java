@@ -85,7 +85,7 @@ public class Particle {
         return offsetZ;
     }
 
-    public int getSize() {
+    public double getSize() {
         return size;
     }
 }
