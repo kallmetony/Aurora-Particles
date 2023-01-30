@@ -1,0 +1,7 @@
+name: AuroraParticles
+version: '${project.version}'
+main: com.aaronr92.auroraproject.Plugin
+api-version: 1.19
+authors: [ AaronR92 ]
+depend:
+  - ProtocolLib
