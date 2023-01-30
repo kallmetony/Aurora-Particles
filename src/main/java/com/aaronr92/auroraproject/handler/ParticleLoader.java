@@ -93,6 +93,6 @@ public class ParticleLoader {
             public void run() {
                 sendParticleToAllPlayers(particle);
             }
-        }.runTaskTimer(Plugin.getPlugin(), 0l, period);
+        }.runTaskTimer(Plugin.getPlugin(), 20l, period);
     }
 }

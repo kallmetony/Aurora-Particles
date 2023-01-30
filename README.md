@@ -1,5 +1,5 @@
 # Aurora-Particles
-#### Lightweight plugin.
+#### Lightweight paper plugin.
 Very simple particle spawning using config file. All you have to do is to specify particles type and location, and it will be spawned automatically
 ## Add particles
 1. Navigate to plugins `config.yml`
