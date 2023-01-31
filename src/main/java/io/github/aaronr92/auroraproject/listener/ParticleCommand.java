@@ -1,6 +1,6 @@
-package com.aaronr92.auroraproject.listener;
+package io.github.aaronr92.auroraproject.listener;
 
-import com.aaronr92.auroraproject.handler.ParticleLoader;
+import io.github.aaronr92.auroraproject.handler.ParticleLoader;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.command.Command;
@@ -18,7 +18,7 @@ public class ParticleCommand implements CommandExecutor {
         if (sender instanceof Player player) {
             Location loc = player.getLocation();
             particleLoader.sendParticleToAllPlayers(
-                    new com.aaronr92.auroraproject.model.Particle(
+                    new io.github.aaronr92.auroraproject.model.Particle(
                             Particle.DRIP_LAVA,
                             loc.getBlockX(),
                             loc.getY(),

@@ -1,4 +1,4 @@
-package com.aaronr92.auroraproject.model;
+package io.github.aaronr92.auroraproject.model;
 
 public class Particle {
     private org.bukkit.Particle particle;
