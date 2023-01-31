@@ -1,8 +1,8 @@
-package com.aaronr92.auroraproject;
+package io.github.aaronr92.auroraproject;
 
-import com.aaronr92.auroraproject.handler.ParticleLoader;
-import com.aaronr92.auroraproject.listener.ParticleCommand;
-import com.aaronr92.auroraproject.listener.PluginListener;
+import io.github.aaronr92.auroraproject.handler.ParticleLoader;
+import io.github.aaronr92.auroraproject.listener.ParticleCommand;
+import io.github.aaronr92.auroraproject.listener.PluginListener;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;

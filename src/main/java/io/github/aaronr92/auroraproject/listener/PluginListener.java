@@ -1,6 +1,6 @@
-package com.aaronr92.auroraproject.listener;
+package io.github.aaronr92.auroraproject.listener;
 
-import com.aaronr92.auroraproject.handler.ParticleLoader;
+import io.github.aaronr92.auroraproject.handler.ParticleLoader;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

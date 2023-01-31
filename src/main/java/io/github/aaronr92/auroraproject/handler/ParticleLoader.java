@@ -1,7 +1,7 @@
-package com.aaronr92.auroraproject.handler;
+package io.github.aaronr92.auroraproject.handler;
 
-import com.aaronr92.auroraproject.Plugin;
-import com.aaronr92.auroraproject.model.Particle;
+import io.github.aaronr92.auroraproject.Plugin;
+import io.github.aaronr92.auroraproject.model.Particle;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
