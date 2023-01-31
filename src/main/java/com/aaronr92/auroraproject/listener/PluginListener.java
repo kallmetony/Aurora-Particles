@@ -15,18 +15,4 @@ public class PluginListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         particleLoader.sendParticlesToPlayer(event.getPlayer());
     }
-
-    @EventHandler
-    public void onMove(PlayerMoveEvent event) {
-        Location loc = event.getPlayer().getLocation();
-        particleLoader.sendParticleToAllPlayers(
-                new com.aaronr92.auroraproject.model.Particle(
-                        Particle.CLOUD,
-                        loc.getBlockX(),
-                        loc.getY(),
-                        loc.getZ(),
-                        1
-                )
-        );
-    }
 }
