@@ -155,6 +155,33 @@ public class ParticleLoader {
         }
     }
 
+    public void drawVerticalQuadroCircle(Player player, double radius, int numParticles) {
+    Location center = player.getLocation();
+    double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
+
+        for (int i = 0; i < numParticles; i++) {
+            double angle = Math.PI / 4 - Math.PI / 2 * i / numParticles;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+
+            // Rotate around Y axis
+            double x1 = x * Math.cos(yaw);
+            double z1 = x * Math.sin(yaw);
+
+            center.getWorld().spawnParticle(
+                    org.bukkit.Particle.REDSTONE,
+                    new Location(
+                            center.getWorld(),
+                            center.getX() + x1,
+                            center.getY() + y,
+                            center.getZ() + z1
+                    ),
+                    0,
+                    new org.bukkit.Particle.DustOptions(Color.BLUE, 1f)
+            );
+        }
+    }
+
     public void sendParticlesToPlayer(Player player) {
         particles.forEach(particle -> {
             player.spawnParticle(
