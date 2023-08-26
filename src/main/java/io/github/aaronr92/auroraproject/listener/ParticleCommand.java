@@ -28,6 +28,10 @@ public class ParticleCommand implements CommandExecutor {
                         Integer.parseInt(args[1]),
                         Math.PI / 2, 0, 0
                 );
+            } else if (args[0].equals("vert")) {
+                particleLoader.drawVerticalCircle(player, 2, Integer.parseInt(args[1]));
+            } else if (args[0].equals("semi")) {
+                particleLoader.drawVerticalSemicircle(player, 2, Integer.parseInt(args[1]));
             }
         }
         return true;

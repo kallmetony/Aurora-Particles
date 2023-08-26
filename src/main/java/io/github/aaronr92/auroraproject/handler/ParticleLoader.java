@@ -2,6 +2,7 @@ package io.github.aaronr92.auroraproject.handler;
 
 import io.github.aaronr92.auroraproject.Plugin;
 import io.github.aaronr92.auroraproject.model.Particle;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -85,13 +86,71 @@ public class ParticleLoader {
             double y3 = x2 * Math.sin(gamma) + y1 * Math.cos(gamma);
 
             center.getWorld().spawnParticle(
-                    org.bukkit.Particle.COMPOSTER,
+                    org.bukkit.Particle.REDSTONE,
                     new Location(
                             center.getWorld(),
                             center.getX() + x3,
                             center.getY() + y3,
                             center.getZ() + z2
-                    ), 0
+                    ),
+                    0,
+                    new org.bukkit.Particle.DustOptions(Color.BLUE, 1f)
+            );
+        }
+    }
+
+    public void drawVerticalCircle(Player player, double radius, int numParticles) {
+    Location center = player.getLocation();
+//    double yaw = Math.toRadians(center.getYaw());
+    // Rotating to be in front of player
+    double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
+
+        for (int i = 0; i < numParticles; i++) {
+            double angle = 2 * Math.PI * i / numParticles;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+
+            // Rotate around Y axis
+            double x1 = x * Math.cos(yaw);
+            double z1 = x * Math.sin(yaw);
+
+            center.getWorld().spawnParticle(
+                    org.bukkit.Particle.REDSTONE,
+                    new Location(
+                            center.getWorld(),
+                            center.getX() + x1,
+                            center.getY() + y,
+                            center.getZ() + z1
+                    ),
+                    0,
+                    new org.bukkit.Particle.DustOptions(Color.BLUE, 1f)
+            );
+        }
+    }
+
+    public void drawVerticalSemicircle(Player player, double radius, int numParticles) {
+    Location center = player.getLocation();
+    double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
+
+        for (int i = 0; i < numParticles; i++) {
+            double angle = Math.PI / 2 - Math.PI * i / numParticles;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+
+            // Rotate around Y axis
+            double x1 = x * Math.cos(yaw);
+            double z1 = x * Math.sin(yaw);
+
+            center.getWorld().spawnParticle(
+                    org.bukkit.Particle.REDSTONE,
+                    new Location(
+                            center.getWorld(),
+                            center.getX() + x1,
+                            center.getY() + y,
+                            center.getZ() + z1
+                    ),
+                    0,
+                    new org.bukkit.Particle.DustOptions(Color.BLUE, 1f)
             );
         }
     }
