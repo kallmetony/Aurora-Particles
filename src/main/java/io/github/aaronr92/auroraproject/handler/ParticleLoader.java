@@ -1,10 +1,12 @@
 package io.github.aaronr92.auroraproject.handler;
 
+import io.github.aaronr92.auroraproject.ParticleChunkSpawnRunnable;
 import io.github.aaronr92.auroraproject.Plugin;
 import io.github.aaronr92.auroraproject.model.Particle;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.slf4j.Logger;
@@ -128,12 +130,56 @@ public class ParticleLoader {
         }
     }
 
-    public void drawVerticalSemicircle(Player player, double radius, int numParticles) {
-    Location center = player.getLocation();
-    double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
+    public void drawVerticalSemicircle(Player player, Color color, double radius, int numParticles) {
+        Location center = player.getLocation();
+
+        center.add(0, 1, 0);
+
+        double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
 
         for (int i = 0; i < numParticles; i++) {
-            double angle = Math.PI / 2 - Math.PI * i / numParticles;
+            double angle = (Math.PI / 4 + Math.PI / 2) - Math.PI * i / numParticles;
+            double x = radius * Math.cos(angle);
+            double y = radius * Math.sin(angle);
+
+            // Rotate around Y axis
+            double x1 = x * Math.cos(yaw);
+            double z1 = x * Math.sin(yaw);
+
+            sendParticles(center, player, x1, y, z1, color);
+        }
+    }
+
+    public void drawSemicircleBeautifully(Player player, double radius, int numParticles) {
+        int chunkSize = 3;
+
+        Location center = player.getLocation();
+
+        center.add(0, 1, 0);
+        double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
+
+        int particleChunkSize = numParticles / chunkSize;
+
+        for (int i = 1; i <= chunkSize; i++) {
+            new ParticleChunkSpawnRunnable(
+                    center,
+                    i,
+                    particleChunkSize,
+                    numParticles,
+                    radius,
+                    yaw
+            ).runTaskLater(Plugin.getPlugin(), i);
+        }
+    }
+
+    public void drawVerticalQuadroCircle(Player player, double radius, int numParticles) {
+        Location center = player.getLocation();
+        double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
+
+        numParticles++;
+
+        for (int i = 1; i < numParticles; i++) {
+            double angle = Math.PI / 4 - Math.PI / 2 * i / numParticles;
             double x = radius * Math.cos(angle);
             double y = radius * Math.sin(angle);
 
@@ -155,31 +201,21 @@ public class ParticleLoader {
         }
     }
 
-    public void drawVerticalQuadroCircle(Player player, double radius, int numParticles) {
-    Location center = player.getLocation();
-    double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
-
-        for (int i = 0; i < numParticles; i++) {
-            double angle = Math.PI / 4 - Math.PI / 2 * i / numParticles;
-            double x = radius * Math.cos(angle);
-            double y = radius * Math.sin(angle);
-
-            // Rotate around Y axis
-            double x1 = x * Math.cos(yaw);
-            double z1 = x * Math.sin(yaw);
-
-            center.getWorld().spawnParticle(
-                    org.bukkit.Particle.REDSTONE,
-                    new Location(
-                            center.getWorld(),
-                            center.getX() + x1,
-                            center.getY() + y,
-                            center.getZ() + z1
-                    ),
-                    0,
-                    new org.bukkit.Particle.DustOptions(Color.BLUE, 1f)
-            );
-        }
+    private void sendParticles(Location location, Player player, double x, double y, double z, Color color) {
+        location.getWorld().spawnParticle(
+                org.bukkit.Particle.REDSTONE,
+                (List<Player>) location.getNearbyPlayers(15),
+                player,
+                x,
+                y,
+                z,
+                0,
+                0,
+                0,
+                0,
+                1.0,
+                new org.bukkit.Particle.DustOptions(color, 1f)
+        );
     }
 
     public void sendParticlesToPlayer(Player player) {
