@@ -6,7 +6,7 @@
 
     <groupId>com.aaronr92.aurora-project</groupId>
     <artifactId>aurora-particles</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1-FEATURE</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -30,7 +30,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>D:\All Projects\minecraft\Minecraft Server Purpur\plugins</outputDirectory>
+                    <outputDirectory>D:\All Projects\minecraft\Aurora Server\plugins</outputDirectory>
                 </configuration>
             </plugin>
 

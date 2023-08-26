@@ -2,6 +2,7 @@ package io.github.aaronr92.auroraproject.handler;
 
 import io.github.aaronr92.auroraproject.Plugin;
 import io.github.aaronr92.auroraproject.model.Particle;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -49,6 +50,50 @@ public class ParticleLoader {
                 log.warn("Particle is not loaded correctly. Check your config.yml!");
             }
         });
+    }
+
+    public void drawCircle(Location center, double radius, int numParticles) {
+        for (int i = 0; i < numParticles; i++) {
+            double angle = 2 * Math.PI * i / numParticles;
+            double x = center.getX() + radius * Math.cos(angle);
+            double y = center.getY();
+            double z = center.getZ() + radius * Math.sin(angle);
+            center.getWorld().spawnParticle(
+                    org.bukkit.Particle.COMPOSTER,
+                    new Location(center.getWorld(), x, y, z), 0
+            );
+        }
+    }
+
+    public void drawCircleWithRotation(Location center, double radius, int numParticles, double alpha, double beta, double gamma) {
+        for (int i = 0; i < numParticles; i++) {
+            double angle = 2 * Math.PI * i / numParticles;
+            double x = radius * Math.cos(angle);
+            double y = 0;
+            double z = radius * Math.sin(angle);
+
+            // Rotate around X axis
+            double y1 = y * Math.cos(alpha) - z * Math.sin(alpha);
+            double z1 = y * Math.sin(alpha) + z * Math.cos(alpha);
+
+            // Rotate around Y axis
+            double x2 = x * Math.cos(beta) + z1 * Math.sin(beta);
+            double z2 = -x * Math.sin(beta) + z1 * Math.cos(beta);
+
+            // Rotate around Z axis
+            double x3 = x2 * Math.cos(gamma) - y1 * Math.sin(gamma);
+            double y3 = x2 * Math.sin(gamma) + y1 * Math.cos(gamma);
+
+            center.getWorld().spawnParticle(
+                    org.bukkit.Particle.COMPOSTER,
+                    new Location(
+                            center.getWorld(),
+                            center.getX() + x3,
+                            center.getY() + y3,
+                            center.getZ() + z2
+                    ), 0
+            );
+        }
     }
 
     public void sendParticlesToPlayer(Player player) {

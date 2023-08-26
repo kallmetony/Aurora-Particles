@@ -16,16 +16,19 @@ public class ParticleCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player player) {
-            Location loc = player.getLocation();
-            particleLoader.sendParticleToAllPlayers(
-                    new io.github.aaronr92.auroraproject.model.Particle(
-                            Particle.DRIP_LAVA,
-                            loc.getBlockX(),
-                            loc.getY(),
-                            loc.getZ(),
-                            Integer.parseInt(args[0])
-                    )
-            );
+            System.out.println(args[0]);
+            if (args[0].equals("simple")) {
+                System.out.println("Drawing simple");
+                particleLoader.drawCircle(player.getLocation(), 3, Integer.parseInt(args[1]));
+            } else if (args[0].equals("rot")) {
+                System.out.println("Drawing with rot");
+                particleLoader.drawCircleWithRotation(
+                        player.getLocation(),
+                        2,
+                        Integer.parseInt(args[1]),
+                        Math.PI / 2, 0, 0
+                );
+            }
         }
         return true;
     }
