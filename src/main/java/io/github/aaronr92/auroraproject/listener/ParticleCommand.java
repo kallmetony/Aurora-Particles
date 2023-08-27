@@ -39,8 +39,8 @@ public class ParticleCommand implements CommandExecutor {
                     @Override
                     public void run() {
                         long start = System.nanoTime();
-                        particleLoader.drawVerticalSemicircle(player, Color.fromRGB(0,191,255), 2, Integer.parseInt(args[1]));
-                        particleLoader.drawVerticalSemicircle(player, Color.WHITE, 2.2, Integer.parseInt(args[1]) / 2);
+                        particleLoader.drawVerticalSemicircle(player, Color.fromRGB(0,191,255), 2, Integer.parseInt(args[1]), 0);
+                        particleLoader.drawVerticalSemicircle(player, Color.WHITE, 2.2, Integer.parseInt(args[1]) / 2, .15);
                         System.out.println(System.nanoTime() - start);
                     }
                 }.runTaskAsynchronously(Plugin.getPlugin());

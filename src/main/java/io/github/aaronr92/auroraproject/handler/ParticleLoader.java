@@ -3,6 +3,7 @@ package io.github.aaronr92.auroraproject.handler;
 import io.github.aaronr92.auroraproject.ParticleChunkSpawnRunnable;
 import io.github.aaronr92.auroraproject.Plugin;
 import io.github.aaronr92.auroraproject.model.Particle;
+import io.sentry.util.Pair;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -23,7 +24,6 @@ public class ParticleLoader {
     private static final List<Particle> particles = Collections.synchronizedList(new ArrayList<>());
 
     public ParticleLoader() {
-
     }
 
     public void init() {
@@ -72,12 +72,11 @@ public class ParticleLoader {
         for (int i = 0; i < numParticles; i++) {
             double angle = 2 * Math.PI * i / numParticles;
             double x = radius * Math.cos(angle);
-            double y = 0;
             double z = radius * Math.sin(angle);
 
             // Rotate around X axis
-            double y1 = y * Math.cos(alpha) - z * Math.sin(alpha);
-            double z1 = y * Math.sin(alpha) + z * Math.cos(alpha);
+            double y1 = - z * Math.sin(alpha);
+            double z1 = z * Math.cos(alpha);
 
             // Rotate around Y axis
             double x2 = x * Math.cos(beta) + z1 * Math.sin(beta);
@@ -130,7 +129,7 @@ public class ParticleLoader {
         }
     }
 
-    public void drawVerticalSemicircle(Player player, Color color, double radius, int numParticles) {
+    public void drawVerticalSemicircle(Player player, Color color, double radius, int numParticles, double offset) {
         Location center = player.getLocation();
 
         center.add(0, 1, 0);
@@ -146,7 +145,18 @@ public class ParticleLoader {
             double x1 = x * Math.cos(yaw);
             double z1 = x * Math.sin(yaw);
 
-            sendParticles(center, player, x1, y, z1, color);
+            center.getWorld().spawnParticle(
+                    org.bukkit.Particle.REDSTONE,
+                    center.getX() + x1,
+                    center.getY() + y,
+                    center.getZ() + z1,
+                    2,
+                    offset,
+                    0,
+                    offset,
+                    1.0,
+                    new org.bukkit.Particle.DustOptions(color, 1f)
+            );
         }
     }
 
@@ -172,7 +182,7 @@ public class ParticleLoader {
         }
     }
 
-    public void drawVerticalQuadroCircle(Player player, double radius, int numParticles) {
+    public void drawVerticalQuarterCircle(Player player, double radius, int numParticles) {
         Location center = player.getLocation();
         double yaw = Math.toRadians(center.getYaw()) + Math.PI / 2;
 
